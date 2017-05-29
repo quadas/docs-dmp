@@ -110,8 +110,9 @@ Status values.
 |:-------:|-----------|-----------|
 |-1       |UNKNOWN    |It's the initial status when a segment is just created.  |
 |0        |OUT_OF_DATE|The DMP segment is newer than the DSP segment.  |
-|1        |DOWNLOADING|The DMP segment is being downloaed to Quadas DSP. |
-|2        |DOWNLOADING_FAIL |The DMP segment is not downloaded successfully. |
-|3        |DOWNLOADED |The DMP segmnet has been downloaded into Quadas DSP.  |
-|4        |UPDATING   |Quadas DSP is importing the downloaded DMP segment. |
-|5        |UPDATED    |The DMP segment is imported into Quadas DSP.  |
+|1        |READY_TO_DOWNLOAD|The DMP segment download request is accepted. The download task will be scheduled.|
+|2        |DOWNLOADING|The DMP segment is being downloaed to Quadas DSP. |
+|3        |DOWNLOADING_FAIL |The DMP segment is not downloaded successfully. |
+|4        |DOWNLOADED |The DMP segmnet has been downloaded into Quadas DSP.  |
+|5        |UPDATING   |Quadas DSP is importing the downloaded DMP segment. |
+|6        |UPDATED    |The DMP segment is imported into Quadas DSP.  |
