@@ -139,7 +139,7 @@ Upload a segment.
 
 ### Request
 ---
-The URI of the API will be /uploadSegment/**<ticket id>**. The request body is a CSV file.
+The URI of the API will be /uploadSegment/*ticket*. The **ticket** is obtained from syncSegmentV2 API. The request body is a CSV file.
 
 ### Response
 ---
