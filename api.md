@@ -4,7 +4,7 @@ Quadas DSP provides APIs for DMPs to import segments into it.
 # Prequisition
 ## Communication
 The communication between DMP and API service must be through https. The request must be a HTTP 1.1 Post request.
-Request content type must be "application/json". The API service response is always a json object.
+Request content type must be "application/json" except /uploadSegment API. The API service response is always a json object.
 
 ## Model
 A segment in a DMP is identified by it's DMP platform ID and DMP segment ID. The combination of the two values must be unique in a DMP.
@@ -13,8 +13,10 @@ A segment in a DMP is identified by it's DMP platform ID and DMP segment ID. The
 The API service provides the following APIs.
 1.  **syncSegment**
 1.  **getSegmentStatus**
+1.  **syncSegmentV2**
+1.  **uploadSegment**
 
-## syncSegment
+## syncSegment and syncSegmentV2
 ---
 Import a DMP segment into Quadas DSP.
 A DMP segment is associated to exact one Quadas DSP. The DSP segment can be imported into the same Quadas DSP segment for several times.
@@ -68,7 +70,19 @@ The response of syncSegment contains following attributes.
 |result       |Int        |0 means the request is accepted. The downloading will be running in the background.|
 |reason       |String     |The attribute is **optional**. When result is not 0, **reason** shows some detail about the error.  |
 
+The response of syncSegmentV2 contains following attributes.
+
+|Name         |Type       |Description         |
+|-------------|-----------|--------------------|
+|result       |Int        |0 means the request is accepted.|
+|uploadTicket |String     |An one time ticket required in ***uploadSegment*** API.|
+|reason       |String     |The attribute is **optional**. When result is not 0, **reason** shows some detail about the error.  |
+
+
 When an error happens while processing the request, the returned HTTP status code will be 500.
+
+### Re-generate upload ticket
+The client can re-generate upload ticket again via calling syncSegmentV2 again. The old ticket will be abandoned.
 
 ## getSegmentStatus
 ---
@@ -116,3 +130,21 @@ Status values.
 |4        |DOWNLOADED |The DMP segmnet has been downloaded into Quadas DSP.  |
 |5        |UPDATING   |Quadas DSP is importing the downloaded DMP segment. |
 |6        |UPDATED    |The DMP segment is imported into Quadas DSP.  |
+|7        |READY_TO_UPLOAD|The DMP segment is ready to accept uploadSegment request.|
+|10       |UPLOADED   |The DMP segment is fully uploaded.|
+
+## uploadSegment
+---
+Upload a segment.
+
+### Request
+---
+The URI of the API will be /uploadSegment/**<ticket id>**. The request body is a CSV file.
+
+### Response
+---
+
+|Name         |Type       |Description         |
+|-------------|-----------|--------------------|
+|result       |Int        |0 means the request is accepted and the segment is uploaded.|
+|reason       |String     |The attribute is **optional**. When result is not 0, **reason** shows some detail about the error.  |
